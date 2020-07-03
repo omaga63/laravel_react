@@ -4,7 +4,7 @@ import Add from "./Add";
 import Listing from "./Listing";
 import Edit from "./Edit";
 
-export default class About extends Component {
+export default class Index extends Component {
     render() {
         return (
             <div>

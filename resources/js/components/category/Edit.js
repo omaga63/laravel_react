@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
+import SuccessAlert from "./SuccessAlert";
+import ErrorAlert from "./ErrorAlert";
 
 export default class Edit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            category_name: ""
+            category_name: "",
+            alert_message: ""
         };
         this.onchangeCategoryName = this.onchangeCategoryName.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -42,7 +45,13 @@ export default class Edit extends Component {
             )
             .then(res => {
                 this.setState({
-                    category_name: ""
+                    category_name: "",
+                    alert_message: "success"
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    alert_message: "error"
                 });
             });
     }
@@ -50,6 +59,11 @@ export default class Edit extends Component {
     render() {
         return (
             <div>
+                <hr />
+                {this.state.alert_message == "success" ? (
+                    <SuccessAlert />
+                ) : null}
+                {this.state.alert_message == "error" ? <ErrorAlert /> : null}
                 <form method="POST" onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label htmlFor="editCategory">Category Name</label>

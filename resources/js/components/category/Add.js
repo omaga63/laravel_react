@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
+import SuccessAlert from "./SuccessAlert";
+import ErrorAlert from "./ErrorAlert";
 
 export default class Add extends Component {
     constructor() {
         super();
         this.state = {
-            category_name: ""
+            category_name: "",
+            alert_message: ""
         };
         this.onchangeCategoryName = this.onchangeCategoryName.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -13,7 +16,8 @@ export default class Add extends Component {
 
     onchangeCategoryName(e) {
         this.setState({
-            category_name: e.target.value
+            category_name: e.target.value,
+            alert_message: ""
         });
     }
 
@@ -27,7 +31,13 @@ export default class Add extends Component {
             .post("http://localhost:8000/api/category/store", category)
             .then(res => {
                 this.setState({
+                    alert_message: "success",
                     category_name: ""
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    alert_message: "error"
                 });
             });
     }
@@ -35,6 +45,11 @@ export default class Add extends Component {
     render() {
         return (
             <div>
+                <hr />
+                {this.state.alert_message == "success" ? (
+                    <SuccessAlert />
+                ) : null}
+                {this.state.alert_message == "error" ? <ErrorAlert /> : null}
                 <form method="POST" onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label htmlFor="addCategory">Category Name</label>

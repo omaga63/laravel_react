@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Pagination from "react-js-pagination";
+import SuccessAlert from "./SuccessAlert";
+import ErrorAlert from "./ErrorAlert";
 
 export default class Listing extends Component {
     constructor() {
@@ -10,7 +12,8 @@ export default class Listing extends Component {
             categories: [],
             activePage: 1,
             itemsCountPerPage: 2,
-            totalItemsCount: 6
+            totalItemsCount: 6,
+            alert_message: ""
         };
     }
 
@@ -52,11 +55,24 @@ export default class Listing extends Component {
                         });
                     }
                 }
+                this.setState({
+                    alert_message: "success"
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    alert_message: "error"
+                });
             });
     }
     render() {
         return (
             <div>
+                <hr />
+                {this.state.alert_message == "success" ? (
+                    <SuccessAlert />
+                ) : null}
+                {this.state.alert_message == "error" ? <ErrorAlert /> : null}
                 <table className="table table-dark">
                     <thead>
                         <tr>
