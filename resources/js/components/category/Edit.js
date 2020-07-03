@@ -14,7 +14,7 @@ export default class Edit extends Component {
     componentDidMount() {
         axios
             .get(
-                "http://localhost:8000/category/edit/" +
+                "http://localhost:8000/api/category/edit/" +
                     this.props.match.params.id
             )
             .then(response => {
@@ -36,7 +36,7 @@ export default class Edit extends Component {
 
         axios
             .put(
-                "http://localhost:8000/category/update/" +
+                "http://localhost:8000/api/category/update/" +
                     this.props.match.params.id,
                 category
             )

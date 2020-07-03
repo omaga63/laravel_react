@@ -24,7 +24,7 @@ export default class Add extends Component {
         };
 
         axios
-            .post("http://localhost:8000/category/store", category)
+            .post("http://localhost:8000/api/category/store", category)
             .then(res => {
                 this.setState({
                     category_name: ""

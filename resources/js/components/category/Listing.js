@@ -15,7 +15,7 @@ export default class Listing extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8000/category").then(response => {
+        axios.get("http://localhost:8000/api/category").then(response => {
             this.setState({
                 categories: response.data.data,
                 itemsCountPerPage: response.data.per_page,
@@ -28,7 +28,7 @@ export default class Listing extends Component {
     // https://www.npmjs.com/package/react-js-pagination 참조
     handlePageChange(pageNumber) {
         axios
-            .get("http://localhost:8000/category?page=" + pageNumber)
+            .get("http://localhost:8000/api/category?page=" + pageNumber)
             .then(response => {
                 this.setState({
                     categories: response.data.data,
@@ -41,7 +41,7 @@ export default class Listing extends Component {
 
     onDelete(category_id) {
         axios
-            .delete("http://localhost:8000/category/delete/" + category_id)
+            .delete("http://localhost:8000/api/category/delete/" + category_id)
             .then(response => {
                 const categories = this.state.categories;
                 for (let i = 0; i < categories.length; i++) {
