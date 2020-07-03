@@ -70,9 +70,11 @@ export default class Listing extends Component {
             <div>
                 <hr />
                 {this.state.alert_message == "success" ? (
-                    <SuccessAlert />
+                    <SuccessAlert message={"Category deleted successfully!"} />
                 ) : null}
-                {this.state.alert_message == "error" ? <ErrorAlert /> : null}
+                {this.state.alert_message == "error" ? (
+                    <ErrorAlert message={"Category deleted failed!"} />
+                ) : null}
                 <table className="table table-dark">
                     <thead>
                         <tr>

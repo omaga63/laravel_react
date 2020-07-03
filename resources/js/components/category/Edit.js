@@ -61,9 +61,11 @@ export default class Edit extends Component {
             <div>
                 <hr />
                 {this.state.alert_message == "success" ? (
-                    <SuccessAlert />
+                    <SuccessAlert message={"Category updated successfully!"} />
                 ) : null}
-                {this.state.alert_message == "error" ? <ErrorAlert /> : null}
+                {this.state.alert_message == "error" ? (
+                    <ErrorAlert message={"Category updated failed!"} />
+                ) : null}
                 <form method="POST" onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label htmlFor="editCategory">Category Name</label>
