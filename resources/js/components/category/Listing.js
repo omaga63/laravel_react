@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default class Listing extends Component {
     constructor() {
@@ -48,7 +49,7 @@ export default class Listing extends Component {
                         {this.state.categories.map((category, i) => {
                             return (
                                 <tr key={i}>
-                                    <th scope="row">{category.id}</th>
+                                    <th scope="row">{i + 1}</th>
                                     <td>{category.name}</td>
                                     <td>
                                         {category.active == 1
@@ -58,6 +59,11 @@ export default class Listing extends Component {
                                     <td>{category.created_at}</td>
                                     <td>{category.updated_at}</td>
                                     <td>
+                                        <Link
+                                            to={"/category/edit/" + category.id}
+                                        >
+                                            Edit |{" "}
+                                        </Link>
                                         <a
                                             href="#"
                                             onClick={this.onDelete.bind(
