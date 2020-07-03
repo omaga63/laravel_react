@@ -70199,6 +70199,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Add; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -70223,29 +70225,65 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Add = /*#__PURE__*/function (_Component) {
   _inherits(Add, _Component);
 
   var _super = _createSuper(Add);
 
   function Add() {
+    var _this;
+
     _classCallCheck(this, Add);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this);
+    _this.state = {
+      category_name: ""
+    };
+    _this.onchangeCategoryName = _this.onchangeCategoryName.bind(_assertThisInitialized(_this));
+    _this.onSubmit = _this.onSubmit.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(Add, [{
+    key: "onchangeCategoryName",
+    value: function onchangeCategoryName(e) {
+      this.setState({
+        category_name: e.target.value
+      });
+    }
+  }, {
+    key: "onSubmit",
+    value: function onSubmit(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      var category = {
+        category_name: this.state.category_name
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("http://localhost:8000/category/store", category).then(function (res) {
+        _this2.setState({
+          category_name: ""
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        method: "POST",
+        onSubmit: this.onSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        "for": "exampleInputEmail1"
+        htmlFor: "addCategory"
       }, "Category Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
         id: "addCategory",
-        placeholder: "Enter category"
+        placeholder: "Enter category",
+        value: this.state.category_name,
+        onChange: this.onchangeCategoryName
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-primary"
@@ -70409,8 +70447,29 @@ var Listing = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "onDelete",
+    value: function onDelete(category_id) {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("http://localhost:8000/category/delete/" + category_id).then(function (response) {
+        var categories = _this3.state.categories;
+
+        for (var i = 0; i < categories.length; i++) {
+          if (categories[i].id == category_id) {
+            categories.splice(i, 1);
+
+            _this3.setState({
+              categories: categories
+            });
+          }
+        }
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-dark"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
@@ -70423,10 +70482,17 @@ var Listing = /*#__PURE__*/function (_Component) {
         scope: "col"
       }, "Created At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         scope: "col"
-      }, "Updated At"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.state.categories.map(function (category) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      }, "Updated At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.state.categories.map(function (category, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+          key: i
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           scope: "row"
-        }, "1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.active), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.updated_at));
+        }, category.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.active == 1 ? "Active" : "Inactive"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.updated_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "#",
+          onClick: _this4.onDelete.bind(_this4, category.id)
+        }, "Delete")));
       }))));
     }
   }]);
